@@ -448,7 +448,7 @@ def saddleplot(
     
     compStrength= compute_strength(saddledata)
     
-    print(compStrength)
+    print("Compartment strength with 20 percent =",compStrength)
     # Plotting
     fig = _saddleplot(
         binedges,
