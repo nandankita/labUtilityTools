@@ -2,7 +2,12 @@
 Created on Apr 16, 2019
 
 @author: nanda
+
+less merged.combined.min2.report | awk '{print $1"\t"$2"\t"$3"\t"$1":"$2"-"$3}' > tmp
+ mv tmp merged.combined.min2.report 
+python ~/aTools/utilities/findOverlapsWithDomains.py -i /nl/umw_job_dekker/users/an27w/sing-distiller/gapclosed/it6-results/gap-it6-manuallycorr-boundaries -r 10000 -n merged.combined.min2.report
 python ~/aTools/utilities/findOverlapsWithDomains.py -i 10kbInsulation-filtered.bed -n merged.sorted.pacbio-chr94.bed -r 10000
+less overlap_file | sort -k1,1 -k2,2 -k3,3 -V > tmp
 '''
 import sys
 import numpy

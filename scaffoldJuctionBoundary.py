@@ -18,7 +18,7 @@ def get_arguments():
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description=textwrap.dedent(
     '''
-    find out the overlapping reads given the scaffolds break
+    find out boundaries which are within subscaffolds.   
     python ~/aTools/utilities/scaffoldJuctionBoundary.py -s merged-1based.Smic1.0.sub-scaffoldList -b 10kbInsulation-filtered-manuallyCorrected.bed 
     ''') )
 
@@ -127,9 +127,10 @@ def  findJunc(scaffolds, bound):
                 if(i.st<=stB<i.end)and(endB>i.end):
                     #juncfH.write("\t".join([i.chr,str(i.st),str(i.end),i.sca,"\n"]))
                     juncfH.write(line+"\n")
-                elif(i.st<stB<i.end)and(i.st<endB<i.end):
+                elif(i.st<stB-4<i.end)and(i.st<endB+4<i.end):
                     #nonfH.write("\t".join([i.chr,str(i.st),str(i.end),i.sca,"\n"]))
-                    nonfH.write(line+"\n")
+                    nonfH.write("\t".join([line,i.sca,str(i.st),str(i.end),i.chr,"\n"]))
+                
                 
             
     

@@ -3,6 +3,8 @@ Created on Dec 26, 2019
 
 @author: nanda
 python ~/aTools/utilities/sam2clippedReport.py mD7.subreads.sam 
+/nl/umw_job_dekker/users/an27w/rawPacBio/gapclosed/blasr
+python ~/aTools/utilities/sam2clippedReport.py C01_1.2.subreads.sam
 '''
 import sys
 import os
@@ -23,6 +25,7 @@ with open(filenameSam, "r") as lineFH, open(outfilenameRep, "w") as outFH:
         #print([r.query_name, r.reference_name, str(position[0]+1), str(position[-1]+1)])
         
         #print(r,r.query_name,r.cigartuples,r.cigar,r.cigarstring)
+        
         if not(r.is_unmapped):
             c=0
             for tuples in r.cigartuples:
@@ -34,16 +37,11 @@ with open(filenameSam, "r") as lineFH, open(outfilenameRep, "w") as outFH:
             skipLoc=0
             num=0
             for t in r.cigartuples[0:c]:
-                if (num==0):
-                    if(r.cigartuples[0][0] in [3,4,5]):
-                        pass
-                    else:
-                        skipLoc+=int(t[1])
+                if(t[0] in [4,5,1]):
+                    pass
                 else:
                     skipLoc+=int(t[1])
-                num+=1
                     
-             
             reverseCigar=r.cigartuples[::-1]
             
             c=0
@@ -54,18 +52,33 @@ with open(filenameSam, "r") as lineFH, open(outfilenameRep, "w") as outFH:
                 c+=1
                 
             skipLocRev=0
-            num=0
+
             for t in reverseCigar[0:c]:
-                if (num==0):
-                    if(reverseCigar[0][0] in [3,4,5]):
-                        pass
-                    else:
-                        skipLocRev+=int(t[1])
+                if(t[0] in [4,5,1]):
+                    pass
                 else:
                     skipLocRev+=int(t[1])
-                num+=1
-            
-    
+#                         if(r.query_name=="m160210_085804_42183_c100934322550000001823210305251655_s1_p0/72759/39517_40165"):
+#                             print("hi",t[1],skipLocRev)
+                     
+#             if(r.query_name=="m160210_085804_42183_c100934322550000001823210305251655_s1_p0/72759/39517_40165"):
+#                 print(r.cigartuples,r.reference_name,str(r.reference_start+1+skipLoc),str(r.reference_end+1-skipLocRev))
+#                 s=0
+#                 ins=0
+#                 dele=0
+#                 for i in r.cigartuples:
+#                     s+=i[1]
+#                     if(int(i[0])==1):
+#                         ins+=i[1]
+#                     if(int(i[0])==2):
+#                         dele+=i[1]
+                #print(r,r.cigartuples,s,r.reference_name,ins,dele,r.reference_start,r.reference_end,r.reference_length,r.query_alignment_start,r.query_alignment_end,r.query_alignment_length)
+#             if(r.reference_name=="cluster48" and (r.reference_end+1-skipLocRev)<0):
+#                 print(r.query_name)
+#                 s=0
+#                 for i in r.cigartuples:
+#                     s+=i[0]
+#                 print(s,r.reference_end,skipLocRev,len(r.cigar))
             #print(r.query_name,skipLoc,skipLocRev)                                          
             outFH.write("\t".join([r.reference_name,str(r.reference_start+1+skipLoc),str(r.reference_end+1-skipLocRev)]))
             outFH.write("\n")

@@ -2,7 +2,7 @@
 Created on Apr 16, 2019
 
 @author: nanda
-python ~/aTools/utilities/findOverlapsWithScaffolds.py -s 10kbInsulation-filtered-manuallyCorrected.bed -r col.merged.combined.pacbio.blasr.bed 
+less scaffolds_overlap_file | sort -k1,1 -k2,2 -k3,3 -V > tmp
 python ~/aTools/utilities/findOverlapsWithScaffolds.py -s merged-1based.Smic1.0.sub-scaffoldList -r pacbio.minimap2.combined.merged.1based.bed
 '''
 import sys
@@ -60,8 +60,10 @@ def findOverlaps(scaffolds, reads_file):
             chrom=rd[0]
             rdStart=rd[1]
             rdEnd=rd[2]
-            readList[chrom].append([rdStart,rdEnd,rd[3]])
-        
+            r3=chrom+":"+str(rdStart)+"-"+rdEnd
+            readList[chrom].append([rdStart,rdEnd,r3])
+#             if(chrom=="cluster49"):
+#                 print(read)
 
         for chrKeys, scValues in sorted(scaffoldList.items()):
             for scValue in scValues:

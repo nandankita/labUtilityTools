@@ -1,0 +1,239 @@
+do_fastqc: False
+do_stats: True
+    
+
+# Fastqs can be provided as:
+# -- a pairs of relative/absolute paths
+# -- sra:<SRA_NUMBER>, optionally followed by the indices of the first and
+# the last entry in the SRA in the form of "?start=<first>&end=<last>
+# [to implement] -- as a path to a folder with fastqs '<base_folder>', with the structure 
+# <base_folder>/<library_name>/<run_name>/, with each folder containing only
+# two fastq.gz files
+input:
+    raw_reads_paths:
+        Dino-HiC-mD1plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-mD1plus-R1/Dino-HiC-mD1plus-R1_S14_L008_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-mD1plus-R1/Dino-HiC-mD1plus-R1_S14_L008_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-mD1plus-R1/Dino-HiC-mD1plus-R1_S14_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-mD1plus-R1/Dino-HiC-mD1plus-R1_S14_L002_R2_001.fastq.gz
+        Dino-HiC-mD3plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/03NOV17_C-Monster-A/03NOV17_C-Monster-A_YZ/Dino-HiC-mD3plus-R1/Dino-HiC-mD3plus-R1_S1_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/03NOV17_C-Monster-A/03NOV17_C-Monster-A_YZ/Dino-HiC-mD3plus-R1/Dino-HiC-mD3plus-R1_S1_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-mD3plus-R1/Dino-HiC-mD3plus-R1_S16_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-mD3plus-R1/Dino-HiC-mD3plus-R1_S16_L002_R2_001.fastq.gz
+        Dino-HiC-mD4plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/01AUG17_C-Monster-A/01AUG17_C-Monster-A_Dino/Dino-HiC-mD4plus-R1/Dino-HiC-mD4plus-R1_S9_L003_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/01AUG17_C-Monster-A/01AUG17_C-Monster-A_Dino/Dino-HiC-mD4plus-R1/Dino-HiC-mD4plus-R1_S9_L003_R2_001.fastq.gz
+        Dino-HiC-mD7plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-mD7plus-R1-A/Dino-HiC-mD7plus-R1-A_S29_L007_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-mD7plus-R1-A/Dino-HiC-mD7plus-R1-A_S29_L007_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-mD7plus-R1-B/Dino-HiC-mD7plus-R1-B_S30_L008_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-mD7plus-R1-B/Dino-HiC-mD7plus-R1-B_S30_L008_R2_001.fastq.gz
+            lane3:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/13DEC16_C-Monster_HHCG2BB/Dino-HiC-mD7plus-R1/Dino-HiC-mD7plus-R1_S3_L003_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/13DEC16_C-Monster_HHCG2BB/Dino-HiC-mD7plus-R1/Dino-HiC-mD7plus-R1_S3_L003_R2_001.fastq.gz
+            lane4:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08NOV16_PE50_C-Monster/Dino-HiC-mD7plus-R1/Dino-HiC-mD7plus-R1_S10_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08NOV16_PE50_C-Monster/Dino-HiC-mD7plus-R1/Dino-HiC-mD7plus-R1_S10_L002_R2_001.fastq.gz
+        Dino-HiC-cD1plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-cD1plus-R1/Dino-HiC-cD1plus-R1_S12_L006_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-cD1plus-R1/Dino-HiC-cD1plus-R1_S12_L006_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-cD1plus-R1/Dino-HiC-cD1plus-R1_S13_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-cD1plus-R1/Dino-HiC-cD1plus-R1_S13_L002_R2_001.fastq.gz
+        Dino-HiC-cD3plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-cD3plus-R1/Dino-HiC-cD3plus-R1_S13_L007_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/24OCT17_C-Monster-B/24OCT17_C-Monster-B_YZ/Dino-HiC-cD3plus-R1/Dino-HiC-cD3plus-R1_S13_L007_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-cD3plus-R1/Dino-HiC-cD3plus-R1_S15_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2017/fastq/06OCT17_C-Monster/06OCT17_C-Monster_Dino/Dino-HiC-cD3plus-R1/Dino-HiC-cD3plus-R1_S15_L002_R2_001.fastq.gz
+        Dino-HiC-cD4plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/01AUG17_C-Monster-A/01AUG17_C-Monster-A_Dino/Dino-HiC-cD4plus-R1/Dino-HiC-cD4plus-R1_S8_L003_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/01AUG17_C-Monster-A/01AUG17_C-Monster-A_Dino/Dino-HiC-cD4plus-R1/Dino-HiC-cD4plus-R1_S8_L003_R2_001.fastq.gz
+        Dino-HiC-cD7plus-R1:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-cD7plus-R1-A/Dino-HiC-cD7plus-R1-A_S27_L005_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-cD7plus-R1-A/Dino-HiC-cD7plus-R1-A_S27_L005_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-cD7plus-R1-B/Dino-HiC-cD7plus-R1-B_S28_L006_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/27MAR17_BHJ2MTBB_C-Monster_PE50x50_only/Dino-HiC-cD7plus-R1-B/Dino-HiC-cD7plus-R1-B_S28_L006_R2_001.fastq.gz
+            lane3:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/13DEC16_C-Monster_HHCG2BB/Dino-HiC-cD7plus-R1/Dino-HiC-cD7plus-R1_S2_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/13DEC16_C-Monster_HHCG2BB/Dino-HiC-cD7plus-R1/Dino-HiC-cD7plus-R1_S2_L002_R2_001.fastq.gz
+            lane4:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08NOV16_PE50_C-Monster/Dino-HiC-cD7plus-R1/Dino-HiC-cD7plus-R1_S9_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08NOV16_PE50_C-Monster/Dino-HiC-cD7plus-R1/Dino-HiC-cD7plus-R1_S9_L002_R2_001.fastq.gz
+            lane5:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/03AUG16_PE50_YZ/Dino-CD7plus-DpnII-I/Dino-CD7plus-DpnII-I_S8_L008_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/03AUG16_PE50_YZ/Dino-CD7plus-DpnII-I/Dino-CD7plus-DpnII-I_S8_L008_R2_001.fastq.gz          
+        Dino-HiC-cD1plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD1plus-R2a/Dino-HiC-cD1plus-R2a_S2_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD1plus-R2a/Dino-HiC-cD1plus-R2a_S2_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD1plus-R2b/Dino-HiC-cD1plus-R2b_S8_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD1plus-R2b/Dino-HiC-cD1plus-R2b_S8_L002_R2_001.fastq.gz
+        Dino-HiC-cD3plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD3plus-R2a/Dino-HiC-cD3plus-R2a_S4_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD3plus-R2a/Dino-HiC-cD3plus-R2a_S4_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD3plus-R2b/Dino-HiC-cD3plus-R2b_S10_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD3plus-R2b/Dino-HiC-cD3plus-R2b_S10_L002_R2_001.fastq.gz
+        Dino-HiC-cD4plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD4plus-R2a/Dino-HiC-cD4plus-R2a_S6_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD4plus-R2a/Dino-HiC-cD4plus-R2a_S6_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD4plus-R2b/Dino-HiC-cD4plus-R2b_S12_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-cD4plus-R2b/Dino-HiC-cD4plus-R2b_S12_L002_R2_001.fastq.gz
+        Dino-HiC-cD7plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08SEP16_PE50_HFMFWBB_YZ/Dino-cD7plus-DpnII-2/Dino-cD7plus-DpnII-2_S4_L003_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08SEP16_PE50_HFMFWBB_YZ/Dino-cD7plus-DpnII-2/Dino-cD7plus-DpnII-2_S4_L003_R2_001.fastq.gz
+        Dino-HiC-mD1plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD1plus-R2a/Dino-HiC-mD1plus-R2a_S1_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD1plus-R2a/Dino-HiC-mD1plus-R2a_S1_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD1plus-R2b/Dino-HiC-mD1plus-R2b_S7_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD1plus-R2b/Dino-HiC-mD1plus-R2b_S7_L002_R2_001.fastq.gz
+        Dino-HiC-mD3plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD3plus-R2a/Dino-HiC-mD3plus-R2a_S3_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD3plus-R2a/Dino-HiC-mD3plus-R2a_S3_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD3plus-R2b/Dino-HiC-mD3plus-R2b_S9_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD3plus-R2b/Dino-HiC-mD3plus-R2b_S9_L002_R2_001.fastq.gz
+        Dino-HiC-mD4plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD4plus-R2a/Dino-HiC-mD4plus-R2a_S5_L001_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD4plus-R2a/Dino-HiC-mD4plus-R2a_S5_L001_R2_001.fastq.gz
+            lane2:
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD4plus-R2b/Dino-HiC-mD4plus-R2b_S11_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/cshare/data/2018/fastq/02FEB18_C-Monster/02FEB18_C-Monster_YZ/Dino-HiC-mD4plus-R2b/Dino-HiC-mD4plus-R2b_S11_L002_R2_001.fastq.gz
+        Dino-HiC-mD7plus-R2:
+            lane1:
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08SEP16_PE50_HFMFWBB_YZ/Dino-mD7plus-DpnII-2/Dino-mD7plus-DpnII-2_S3_L002_R1_001.fastq.gz
+                - /nl/umw_job_dekker/archive/tmp_cshare/solexa/08SEP16_PE50_HFMFWBB_YZ/Dino-mD7plus-DpnII-2/Dino-mD7plus-DpnII-2_S3_L002_R2_001.fastq.gz
+    library_groups:
+        Dino-HiC-mDplus:
+            - Dino-HiC-mD1plus-R1
+            - Dino-HiC-mD3plus-R1
+            - Dino-HiC-mD4plus-R1
+            - Dino-HiC-mD7plus-R1
+            - Dino-HiC-mD1plus-R2
+            - Dino-HiC-mD3plus-R2
+            - Dino-HiC-mD4plus-R2
+            - Dino-HiC-mD7plus-R2
+        Dino-HiC-cDplus:
+            - Dino-HiC-cD1plus-R1
+            - Dino-HiC-cD3plus-R1
+            - Dino-HiC-cD4plus-R1
+            - Dino-HiC-cD7plus-R1
+            - Dino-HiC-cD1plus-R2
+            - Dino-HiC-cD3plus-R2
+            - Dino-HiC-cD4plus-R2
+            - Dino-HiC-cD7plus-R2
+        Dino-HiC-D1plus:
+            - Dino-HiC-mD1plus-R1
+            - Dino-HiC-mD1plus-R2
+            - Dino-HiC-cD1plus-R1
+            - Dino-HiC-cD1plus-R2
+        Dino-HiC-D3plus:
+            - Dino-HiC-mD3plus-R1
+            - Dino-HiC-mD3plus-R2
+            - Dino-HiC-cD3plus-R1
+            - Dino-HiC-cD3plus-R2
+        Dino-HiC-D4plus:
+            - Dino-HiC-mD4plus-R1
+            - Dino-HiC-mD4plus-R2
+            - Dino-HiC-cD4plus-R1
+            - Dino-HiC-cD4plus-R2
+        Dino-HiC-D7plus:
+            - Dino-HiC-mD7plus-R1
+            - Dino-HiC-mD7plus-R2
+            - Dino-HiC-cD7plus-R1
+            - Dino-HiC-cD7plus-R2
+        Dino-HiC-Dplus:
+            - Dino-HiC-mD1plus-R1
+            - Dino-HiC-mD3plus-R1
+            - Dino-HiC-mD4plus-R1
+            - Dino-HiC-mD7plus-R1
+            - Dino-HiC-cD1plus-R1
+            - Dino-HiC-cD3plus-R1
+            - Dino-HiC-cD4plus-R1
+            - Dino-HiC-cD7plus-R1
+            - Dino-HiC-mD1plus-R2
+            - Dino-HiC-mD3plus-R2
+            - Dino-HiC-mD4plus-R2
+            - Dino-HiC-mD7plus-R2
+            - Dino-HiC-cD1plus-R2
+            - Dino-HiC-cD3plus-R2
+            - Dino-HiC-cD4plus-R2
+            - Dino-HiC-cD7plus-R2
+    genome:
+        assembly: 'dino-60fix-t3'
+        bwa_index_wildcard: '/nl/umw_job_dekker/users/an27w/dinoflagellets/analysis/fixesAfter60per/trial3/fasta/dino-60per-Fix-t3-all.fa*'
+        chrom_sizes_path: '/nl/umw_job_dekker/users/an27w/dinoflagellets/analysis/fixesAfter60per/trial3/fasta/dino-60per-Fix-t3.chrom.sizes' 
+
+map:
+    chunksize: 20000000
+    drop_sam: True
+    drop_readid: True
+    drop_seq: True
+
+
+filter:
+    pcr_dups_max_mismatch_bp: 1
+
+bin:
+    resolutions:
+        - 1000000
+        - 500000
+        - 200000
+        - 40000
+        - 20000
+        - 10000
+        - 8000
+        - 5000
+        - 1000
+    balance: True
+    balance_options: '--mad-max 20'
+    zoomify: True
+
+
+intermediates:
+    base_dir: 'results/intermediates/'
+    dirs:
+        downloaded_fastqs: 'downloaded_fastqs/'
+        fastq_chunks: 'fastq_chunks'
+        bam_run: 'bam/run'
+        pairsam_chunk: 'pairsam/chunk'
+        pairsam_run: 'pairsam/run'
+        pairsam_library: 'pairsam/library'
+
+output:
+    base_dir: 'results/output/'
+    dirs:
+        fastqc: 'fastqc/'
+        pairs_library: 'pairs/library/'
+        stats_chunk: 'stats/chunk/'
+        stats_run: 'stats/run/'
+        stats_library: 'stats/library/'
+        stats_library_group: 'stats/library_group/'
+        coolers_library: 'coolers/library/'
+        coolers_library_group: 'coolers/library_group/'
+        zoom_coolers_library: 'coolers/library_zoom/'
+        zoom_coolers_library_group: 'coolers/library_group_zoom/'
+        bams_library: 'bams/library/'

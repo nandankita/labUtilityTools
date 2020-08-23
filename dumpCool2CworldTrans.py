@@ -6,6 +6,11 @@ Created on Mar 28, 2019
 python ~/aTools/utilities/dumpCool2CworldTrans.py -i ../HiC-Dplus.dinov1.0-chr95Clusters.no_filter.1000.mcool 
 -o chr4-domain2.matrix -l chr4:1-2050000,chr4:2050001-3450000 -r 50000 -iced True -iced_unity True
 
+python ~/aTools/utilities/dumpCool2CworldTrans.py -i HiC-Dplus.dino-missingClusters95.no_filter.1000.mcool 
+-o D-trans-chr4-cluster4.raw50kb.matrix -l cluster4,chr4 -r 50000 -iced false -iced_unity false
+
+python ~/aTools/utilities/dumpCool2CworldTrans.py -i HiC-mDplus.dino-missingClusters95.no_filter.1000.mcool -o mastigotes-mD-trans-chr4-cluster4-50kbiced.matrix -l cluster4,chr4 -r 50000 -iced true -iced_unity true
+
 '''
 import argparse
 import textwrap
